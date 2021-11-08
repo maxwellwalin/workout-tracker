@@ -36,7 +36,7 @@ app.get("/api/workouts", (req, res) => {
   Workout.aggregate([
     {
       $set: {
-        totalDuration: {$sum: "$exercises.duration"} 
+        totalDuration: { $sum: "$exercises.duration" }
       }
     }])
     .then(dbWorkout => {
@@ -51,7 +51,7 @@ app.get("/api/workouts/range", (req, res) => {
   Workout.aggregate([
     {
       $set: {
-        totalDuration: {$sum: "$exercises.duration"} 
+        totalDuration: { $sum: "$exercises.duration" }
       }
     }])
     .sort({ day: -1 })
@@ -69,9 +69,7 @@ app.put("/api/workouts/:id", (req, res) => {
       _id: req.params.id
     },
     {
-      $set: {
-        exercises: req.body
-      }
+      $set: { exercises: req.body }
     })
     .then(dbWorkout => {
       res.json(dbWorkout);
