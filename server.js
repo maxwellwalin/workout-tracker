@@ -33,7 +33,28 @@ app.get('/exercise', (req, res) => {
 
 // apiRoutes
 app.get("/api/workouts", (req, res) => {
-  Workout.find({})
+  Workout.aggregate([
+    {
+      $set: {
+        totalDuration: {$sum: "$exercises.duration"} 
+      }
+    }])
+    .then(dbWorkout => {
+      res.json(dbWorkout);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
+});
+
+app.get("/api/workouts/range", (req, res) => {
+  Workout.aggregate([
+    {
+      $set: {
+        totalDuration: {$sum: "$exercises.duration"} 
+      }
+    }])
+    .sort({ day: -1 })
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
